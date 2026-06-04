@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin · <%= siteName %></title>
+<link rel="stylesheet" href="/static/css/app.css" />
+<style>
+.uadmin{padding:18px;border-radius:16px;background:var(--panel);border:1px solid var(--border);margin-bottom:14px}
+.uadmin-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.bgrid{display:flex;flex-wrap:wrap;gap:7px}
+.btoggle{padding:6px 11px;font-size:.78rem;border-radius:9px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--dim);cursor:pointer;transition:.18s;font-family:inherit}
+.btoggle:hover{border-color:var(--accent)}
+.btoggle.on{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border:none}
+</style>
+</head>
+<body>
+<div class="hero-glow"></div>
+<div class="container dash">
+  <div class="dash-head">
+    <div><h2>🛠️ Panneau admin</h2><div class="current"><%= users.length %> compte<%= users.length>1?'s':'' %></div></div>
+    <nav style="display:flex;gap:10px"><a class="btn" href="/dashboard">Mon profil</a></nav>
+  </div>
+
+  <% users.forEach(function(u){ %>
+    <div class="uadmin">
+      <div class="uadmin-head">
+        <div>
+          <a href="/<%= u.username %>" target="_blank" style="color:var(--accent);font-weight:700;font-size:1.05rem">@<%= u.username %></a>
+          <span class="current"> · <%= u.views %> vues · <%= u.badges.length %> badge<%= u.badges.length>1?'s':'' %></span>
+        </div>
+        <form method="POST" action="/admin/delete" onsubmit="return confirm('Supprimer @<%= u.username %> définitivement ?')">
+          <input type="hidden" name="id" value="<%= u.id %>"/>
+          <button class="btn btn-danger" type="submit" style="padding:7px 12px;font-size:.8rem">Supprimer</button>
+        </form>
+      </div>
+      <div class="bgrid">
+        <% catalog.forEach(function(c){ %>
+          <form method="POST" action="/admin/badge" style="display:inline">
+            <input type="hidden" name="id" value="<%= u.id %>"/>
+            <input type="hidden" name="key" value="<%= c.key %>"/>
+            <button class="btoggle <%= u.badges.indexOf(c.key)>=0?'on':'' %>" type="submit"><%= c.label %></button>
+          </form>
+        <% }) %>
+      </div>
+    </div>
+  <% }) %>
+</div>
+</body>
+</html>

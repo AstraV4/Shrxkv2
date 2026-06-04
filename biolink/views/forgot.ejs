@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mot de passe oublié</title>
+<link rel="stylesheet" href="/static/css/app.css" />
+</head>
+<body>
+<div class="container"><header><a href="/" class="logo"><%= siteName %></a></header></div>
+<div class="auth-wrap">
+  <% if (done) { %>
+    <div class="auth panel">
+      <h2>Mot de passe réinitialisé ✅</h2>
+      <p class="sub">Tu peux maintenant te connecter avec ton nouveau mot de passe.</p>
+      <a class="btn btn-primary full" href="/login">Se connecter</a>
+    </div>
+  <% } else { %>
+    <form class="auth panel" method="POST" action="/forgot">
+      <h2>Mot de passe oublié</h2>
+      <p class="sub">Saisis ton pseudo, ton code de récupération, et un nouveau mot de passe.</p>
+      <% if (error) { %><div class="error"><%= error %></div><% } %>
+
+      <label>Pseudo</label>
+      <input type="text" name="username" placeholder="tonpseudo" required autofocus />
+
+      <label>Code de récupération</label>
+      <input type="text" name="code" placeholder="XXXXX-XXXXX-..." required />
+
+      <label>Nouveau mot de passe</label>
+      <input type="password" name="password" placeholder="6 caractères minimum" required />
+
+      <button class="btn btn-primary full" type="submit">Réinitialiser</button>
+      <p class="muted"><a href="/login" style="color:var(--accent)">Retour à la connexion</a></p>
+    </form>
+  <% } %>
+</div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title><%= siteName %> — ta page, ton style</title>
+<link rel="stylesheet" href="/static/css/app.css" />
+</head>
+<body>
+<div class="hero-glow"></div>
+<div class="container">
+  <header>
+    <a href="/" class="logo"><%= siteName %></a>
+    <nav>
+      <% if (me) { %>
+        <% if (isAdmin) { %><a class="btn btn-ghost" href="/admin">Admin</a><% } %>
+        <a class="btn btn-ghost" href="/<%= me.username %>">Ma page</a>
+        <a class="btn btn-primary" href="/dashboard">Mon profil</a>
+      <% } else { %>
+        <a class="btn btn-ghost" href="/login">Connexion</a>
+        <a class="btn btn-primary" href="/register">S'inscrire</a>
+      <% } %>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="pill">✦ ton lien-en-bio, en mieux</div>
+    <h1>Une page.<br><span>Tout ton univers.</span></h1>
+    <p>Avatar, musique, effets, présence Discord en direct, badges… Crée ton profil
+       en quelques secondes et partage un seul lien : <b><%= siteName %>/tonpseudo</b></p>
+    <div class="cta">
+      <% if (me) { %>
+        <a class="btn btn-primary btn-lg" href="/dashboard">Modifier mon profil</a>
+        <a class="btn btn-lg" href="/<%= me.username %>">Voir ma page</a>
+      <% } else { %>
+        <a class="btn btn-primary btn-lg" href="/register">Créer ma page — gratuit</a>
+        <a class="btn btn-lg" href="/login">J'ai déjà un compte</a>
+      <% } %>
+    </div>
+    <p class="stat">⚡ <%= count %> profil<%= count > 1 ? 's' : '' %> déjà créé<%= count > 1 ? 's' : '' %></p>
+  </section>
+
+  <section class="features">
+    <div class="feature"><div class="fic">🎵</div><b>Musique & ambiance</b><span>Cherche une musique ou uploade la tienne, fond image ou vidéo, effets animés.</span></div>
+    <div class="feature"><div class="fic">💬</div><b>Discord en direct</b><span>Affiche ton statut, ton activité et ton serveur, mis à jour en temps réel.</span></div>
+    <div class="feature"><div class="fic">✨</div><b>100% personnalisable</b><span>Couleurs, curseurs, badges, forme de carte… ta page te ressemble.</span></div>
+  </section>
+
+  <% if (recent.length) { %>
+    <h3 class="sec-title">Derniers profils</h3>
+    <div class="grid">
+      <% recent.forEach(function(r){ %>
+        <a class="ucard" href="/<%= r.username %>">
+          <% if (r.avatar) { %><img src="<%= r.avatar %>" alt="" /><% } else { %><div class="ph"></div><% } %>
+          <b>@<%= r.username %></b>
+          <% if (r.title) { %><small><%= r.title %></small><% } %>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <footer class="foot">© <%= new Date().getFullYear() %> <%= siteName %> · fait avec ❤</footer>
+</div>
+</body>
+</html>
